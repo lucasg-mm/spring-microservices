@@ -2,6 +2,7 @@ package com.lucas.departmentservice.service.impl;
 
 import com.lucas.departmentservice.dto.DepartmentDto;
 import com.lucas.departmentservice.entity.Department;
+import com.lucas.departmentservice.exception.ResourceNotFoundException;
 import com.lucas.departmentservice.mapper.DepartmentMapper;
 import com.lucas.departmentservice.repository.DepartmentRepository;
 import com.lucas.departmentservice.service.DepartmentService;
@@ -24,7 +25,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto getDepartmentByCode(String departmentCode) {
-        Department department = departmentRepository.findByDepartmentCode(departmentCode);
+        Department department = departmentRepository
+                .findByDepartmentCode(departmentCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Department", "departmentCode", departmentCode));
 
         return DepartmentMapper.MAPPER.mapToDepartmentDto(department);
     }
