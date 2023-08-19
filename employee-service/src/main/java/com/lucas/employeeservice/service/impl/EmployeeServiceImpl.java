@@ -2,6 +2,7 @@ package com.lucas.employeeservice.service.impl;
 
 import com.lucas.employeeservice.dto.EmployeeDto;
 import com.lucas.employeeservice.entity.Employee;
+import com.lucas.employeeservice.mapper.EmployeeMapper;
 import com.lucas.employeeservice.repository.EmployeeRepository;
 import com.lucas.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -16,31 +17,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
 
-        Employee employee = new Employee(
-                employeeDto.getId(),
-                employeeDto.getFirstName(),
-                employeeDto.getLastName(),
-                employeeDto.getEmail());
+        Employee employee = EmployeeMapper.MAPPER.mapToEmployee(employeeDto);
 
         Employee savedEmployee = employeeRepository.save(employee);
 
-        return new EmployeeDto(
-                savedEmployee.getId(),
-                savedEmployee.getFirstName(),
-                savedEmployee.getLastName(),
-                savedEmployee.getEmail());
+        return EmployeeMapper.MAPPER.mapToEmployeeDto(savedEmployee);
     }
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).get();
 
-        EmployeeDto employeeDto = new EmployeeDto(
-                employee.getId(),
-                employee.getFirstName(),
-                employee.getLastName(),
-                employee.getEmail());
-
-        return employeeDto;
+        return EmployeeMapper.MAPPER.mapToEmployeeDto(employee);
     }
 }
