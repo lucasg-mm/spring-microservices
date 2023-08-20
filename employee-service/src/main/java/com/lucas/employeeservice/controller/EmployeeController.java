@@ -1,5 +1,6 @@
 package com.lucas.employeeservice.controller;
 
+import com.lucas.employeeservice.dto.APIResponseDto;
 import com.lucas.employeeservice.dto.EmployeeDto;
 import com.lucas.employeeservice.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,9 @@ public class EmployeeController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long id){
-        EmployeeDto employee = employeeService.getEmployeeById(id);
-        return new ResponseEntity<>(employee, HttpStatus.OK);
+    public ResponseEntity<APIResponseDto> getEmployeeById(@PathVariable("id") Long id){
+        APIResponseDto res = employeeService.getEmployeeById(id);
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @PostMapping
